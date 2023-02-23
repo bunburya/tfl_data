@@ -32,6 +32,7 @@ Possible values for `statusSeverityDescription` are:
 | Part Closure    | tube, dlr, overground, tflrail, tram, elizabeth-line                       | Part of the line is closed. Partial closure was planned in advance.              |
 | Bus Service     | bus                                                                        | Seems to be used for interruptions to bus service, similar to "Special Service". |
 
+The `Special Service` status seems to be the main way to communicate disruptions to bus routes. For other modes, it is used only rarely, and rather inconsistently. For the tube, for example, it is sometimes used where service is disrupted due to strike action.
 
 Statuses other than "Good Service" are typically accompanied by a `reason` entry (as a string) as well as a `disruption` entry (as a dict), which will give more information about the disruption to service. For National Rail lines, the reason is just a link to the National Rail website.
 

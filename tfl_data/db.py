@@ -85,6 +85,18 @@ class DatabaseManager:
         self.cursor.execute('SELECT name FROM sqlite_master WHERE type="table"')
         return [r[0] for r in self.cursor.fetchall()]
 
+    def get_line_names(self, mode_name: Optional [str] = None) -> list[str]:
+        """Get the names of all lines.
+
+        :param mode_name: If provided, only return lines for the given mode.
+
+        """
+        if mode_name is not None:
+            self.cursor.execute('SELECT line_name FROM "line_names" WHERE mode_name = ?', (mode_name,))
+        else:
+            self.cursor.execute('SELECT line_name FROM "line_names"')
+        return [r[0] for r in self.cursor.fetchall()]
+
     def get_column_names(self, table_name: str) -> list[str]:
         """Get the names of all columns in the given table."""
         # Sanity check to ensure table_name is actually a table name
