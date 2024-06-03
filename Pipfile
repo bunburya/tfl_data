@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 requests = "*"
 pandas = "*"
+sqlalchemy = "*"
+jupyter = "*"
 
 [dev-packages]
 

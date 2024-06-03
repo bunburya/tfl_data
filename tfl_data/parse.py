@@ -5,15 +5,15 @@ import tarfile
 import tempfile
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional, Generator
+from typing import Optional, Generator, Any
 
 
 def listdir(*args, **kwargs) -> list[str]:
     """Wrapper around os.listdir which sorts the results."""
     return sorted(os.listdir(*args, **kwargs))
 
-class DataParser:
 
+class DataParser:
     CATEGORIES = ('air_quality', 'bikes', 'charge_connectors', 'lines')
 
     def __init__(self, data_dir: str):
@@ -37,10 +37,9 @@ class DataParser:
             with open(os.path.join(tmpdir, json_fname)) as jf:
                 return json.load(jf)
 
-
-    def walk_category(self, category: str) -> Generator[dict, None, None]:
+    def walk_category(self, category: str) -> Generator[list[dict[str, Any]], None, None]:
         """Walk through all files in a particular data category, yielding for each file a tuple
-        of a datetime object and a dict containing the data for that date and time.
+        of a datetime object and a list containing the data for that date and time.
 
         :param category: The category of data we want to inspect.
         """

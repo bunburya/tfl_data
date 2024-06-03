@@ -15,7 +15,7 @@ Each line dict also has a `disruptions` entry, but as far as I can see this is a
 
 The actual status of the line is observed by examining the `lineStatuses` entry in the line dict. This is a list of dicts each of which has information on the current status. There can be more than one status in effect at a time. The `statusSeverity` entry in the status dict is a numerical value indicating the level of severity of the status. The `statusSeverityDescription` is a string describing the status in words. 
 
-Possible values for `statusSeverityDescription` are:
+A full outline of all possible severity levels can be found [here](https://api.tfl.gov.uk/Line/Meta/Severity). Values I have observed in the wild for `statusSeverityDescription` are:
 
 | description     | modes                                                                      | meaning                                                                          |
 |-----------------|----------------------------------------------------------------------------|----------------------------------------------------------------------------------|
@@ -34,6 +34,10 @@ Possible values for `statusSeverityDescription` are:
 
 The `Special Service` status seems to be the main way to communicate disruptions to bus routes. For other modes, it is used only rarely, and rather inconsistently. For the tube, for example, it is sometimes used where service is disrupted due to strike action.
 
-Statuses other than "Good Service" are typically accompanied by a `reason` entry (as a string) as well as a `disruption` entry (as a dict), which will give more information about the disruption to service. For National Rail lines, the reason is just a link to the National Rail website.
+Statuses other than `Good Service` are typically accompanied by a `reason` entry (as a string) and a `disruption` entry (as a dict), which will give more information about the disruption to service. For National Rail lines, the reason is just a link to the National Rail website. The `disruption` will generally have a `category` entry which, it seems, is generally one of:
+
+- `PlannedWork`: Disruption is due to some planned works.
+- `RealTime`: Disruption is apparently unplanned.
+- `Information`: This can either be information about a disruption or, when used in connection with a `Special Service` status, seems to just communicate some additional information about the service (ie, it doesn't necessarily indicate a disruption at all). For example, I have seen it used to advertise a TFL customer survey.
 
 A line dict can contain multiple statuses. This could be the case if, for example, only part of a line is affected by a particular status (like if part of a line is delayed or closed). Statuses which are in effect for prolonged periods of time (like a line being partially closed for weeks for upgrade works, for example) may also appear even when the line is outside of normal service hours, so that a line could have both "Service Closed" and "Part Closure" statuses.
